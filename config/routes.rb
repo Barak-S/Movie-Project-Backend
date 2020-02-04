@@ -5,7 +5,5 @@ Rails.application.routes.draw do
   resources :follows
   post 'watch_laters/find_and_delete', :to => 'watch_laters#find_and_delete'
 
-  
-  # resources :movie_item
 
 end

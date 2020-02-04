@@ -6,12 +6,12 @@ class FollowsController < ApplicationController
     end
 
     def create 
-        follow = Follow.find_or_create_by(follow_params)
+        follow = Follow.create(follow_params)
         render json: follow, except: [:created_at, :updated_at]
     end
 
     def show
-        folow=Follow.find(params[:id])
+        follow=Follow.find(params[:id])
         render json: follow, except: [:created_at, :updated_at]
     end
 
