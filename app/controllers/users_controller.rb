@@ -13,7 +13,7 @@ class UsersController < ApplicationController
     def show
         user = User.find(params[:id])
         render json: user.to_json(:include => {
-          :watch_laters => {:only => [:user_id, :movie_id, :id]}
+          :movies => {:only => [:Title, :Poster, :imdbRating, :imdbID, :Plot]}
         }, :except => [:created_at, :updated_at])
       end
 
