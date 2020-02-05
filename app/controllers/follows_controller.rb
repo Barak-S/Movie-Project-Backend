@@ -12,7 +12,19 @@ class FollowsController < ApplicationController
 
     def show
         follow=Follow.find(params[:id])
-        render json: follow, except: [:created_at, :updated_at]
+        followee = User.find(follow.followee_id)
+        render json: followee.to_json(:include => {
+          :movies => {:only => [:Title, :Poster, :imdbRating, :imdbID, :Plot]}
+        }, :except => [:created_at, :updated_at])
+    end
+
+    def find_my_followees
+        follower = User.find_by(id: params[:follower_id])
+        my_followees = Follow.where(follower_id: follower)
+        info_i_need = my_followees.map{|f| f.followee}
+        render json: info_i_need.to_json(:include => {
+            :movies => {:only => [:Title, :Poster, :imdbRating, :imdbID, :Plot]}
+          }, :except => [:created_at, :updated_at])
     end
 
     def destroy

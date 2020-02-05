@@ -1,4 +1,8 @@
 class User < ApplicationRecord
+    # attr_accessor :user_name, uniqueness: true
+    validates :username, uniqueness: {case_sensitive: false}
+
+
     has_many :followed_users, foreign_key: :follower_id, class_name: 'Follow'
     has_many :followees, through: :followed_users
 
