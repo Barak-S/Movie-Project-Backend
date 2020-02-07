@@ -7,7 +7,9 @@ class FollowsController < ApplicationController
 
     def create 
         follow = Follow.create(follow_params)
-        render json: follow, except: [:created_at, :updated_at]
+        render json: follow.to_json(:include => {
+            :followee => {:only => [:username]}
+          }, :except => [:created_at, :updated_at])
     end
 
     def show
