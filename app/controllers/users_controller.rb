@@ -6,8 +6,13 @@ class UsersController < ApplicationController
     end
 
     def create 
-        user = User.create(user_params)
-        render json: user, except: [:created_at, :updated_at]
+        
+        user = User.new(username: params[:username], password: params[:password])
+        if user.save
+            render json: user, except: [:created_at, :updated_at]
+        else
+            render json: {errors: user.errors.full_messages}
+        end
     end
 
     def find_my_account
@@ -31,7 +36,7 @@ class UsersController < ApplicationController
     private
 
     def user_params
-        params.require(:user).permit(:id, :username, :password)
+        params.require(:user).permit( :username, :password)
     end
 
 end
