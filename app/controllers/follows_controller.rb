@@ -6,7 +6,7 @@ class FollowsController < ApplicationController
     end
 
     def create 
-        follow = Follow.create(follow_params)
+        follow = Follow.find_or_create_by(follow_params)
         render json: follow.to_json(:include => {
             :followee => {:only => [:username]}
           }, :except => [:created_at, :updated_at])
@@ -29,9 +29,10 @@ class FollowsController < ApplicationController
           }, :except => [:created_at, :updated_at])
     end
 
-    def destroy
-        follow = Follow.find(params[:id])
+    def remove_friend
+        follow = Follow.find_by(follower_id: params[:follower_id], followee_id: params[:followee_id])
         follow.destroy
+        find_my_followees()
     end
 
     private

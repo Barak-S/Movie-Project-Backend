@@ -5,8 +5,7 @@ class UsersController < ApplicationController
         render json: users, except:[:created_at, :updated_at]
     end
 
-    def create 
-        
+    def create  
         user = User.new(username: params[:username], password: params[:password])
         if user.save
             render json: user, except: [:created_at, :updated_at]
